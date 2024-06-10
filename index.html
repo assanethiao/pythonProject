@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeux Anniversaire</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #0a0a32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            position: absolute;
+        }
+        .message {
+            position: absolute;
+            text-align: center;
+            z-index: 1;
+        }
+        .message h1 {
+            font-size: 4em;
+        }
+        .message h2 {
+            font-size: 2.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1>🎉🎂 Joyeux Anniversaire JOOOOOOO! 🎂🎉</h1>
+        <h3>Aujourd'hui est un jour très spécial car nous célébrons la naissance d'une personne incroyable : TOI ! 🎈✨ Que cette journée soit remplie de moments magiques et de souvenirs inoubliables. Profite de chaque instant, entoure-toi des gens que tu aimes et laisse-toi choyer comme tu le mérites. 🥳🎊</h3>
+        <h3>En cette journée exceptionnelle, je tiens à te souhaiter tout le bonheur du monde. Que cette nouvelle année de ta vie soit encore plus merveilleuse que la précédente. 🌟❤️ Que chaque jour soit illuminé par la joie, l'amour et la réussite. 🌞💖</h3>
+        <h3>Je te souhaite également une santé de fer, car avec la santé, tout est possible. 💪🩺 Que tous tes projets se réalisent et que tu atteignes tous les objectifs que tu t'es fixés. 🚀🏆</h3>
+        <h3>Encore une fois, joyeux anniversaire ! 🎉 Que cette journée soit à la hauteur de ta générosité et de ta bonté. Passe une journée formidable entouré de ceux qui t'aiment. 🥰🎊</h3>
+        <h3>Assane THIAO 🎈🎂🌟</h3>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const numBubbles = 50;
+        const numStars = 100;
+        const bubbleColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+        const bubbles = [];
+        const stars = [];
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function createBubbles() {
+            for (let i = 0; i < numBubbles; i++) {
+                let radius = randomInt(10, 50);
+                let x = randomInt(radius, canvas.width - radius);
+                let y = randomInt(radius, canvas.height - radius);
+                let color = bubbleColors[randomInt(0, bubbleColors.length - 1)];
+                bubbles.push({ x, y, radius, color, speed: 2 });
+            }
+        }
+
+        function createStars() {
+            for (let i = 0; i < numStars; i++) {
+                let x = randomInt(0, canvas.width);
+                let y = randomInt(0, canvas.height);
+                stars.push({ x, y, speed: 1 });
+            }
+        }
+
+        function drawBubbles() {
+            bubbles.forEach(bubble => {
+                ctx.beginPath();
+                ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+                ctx.fillStyle = bubble.color;
+                ctx.fill();
+                bubble.y -= bubble.speed;
+                if (bubble.y < -bubble.radius) {
+                    bubble.y = canvas.height + bubble.radius;
+                    bubble.x = randomInt(bubble.radius, canvas.width - bubble.radius);
+                }
+            });
+        }
+
+        function drawStars() {
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = randomInt(0, canvas.width);
+                }
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawStars();
+            drawBubbles();
+            requestAnimationFrame(animate);
+        }
+
+        createBubbles();
+        createStars();
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
